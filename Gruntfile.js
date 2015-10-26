@@ -21,7 +21,6 @@ module.exports = function (grunt) {
 
   // Time how long tasks take. Can help when optimizing build times
   require('time-grunt')(grunt);
-  grunt.loadNpmTasks('grunt-mocha-istanbul');
   // Define the configuration for all the tasks
   grunt.initConfig({
 
@@ -120,6 +119,17 @@ module.exports = function (grunt) {
     },
 
     // Make sure code styles are up to par and there are no obvious mistakes
+    eslint: {
+           options: {
+               configFile: 'eslint.json'
+           },
+           target: [
+               '<%= yeoman.client %>/{app,components}/**/*.js',
+               '!<%= yeoman.client %>/{app,components}/**/*.spec.js',
+               '!<%= yeoman.client %>/{app,components}/**/*.mock.js'
+        ]
+    },
+
     jshint: {
       options: {
         jshintrc: '<%= yeoman.client %>/.jshintrc',
@@ -664,7 +674,7 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'newer:jshint',
+    'newer:eslint',
     'test',
     'build'
   ]);
